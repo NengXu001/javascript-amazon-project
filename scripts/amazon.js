@@ -56,6 +56,7 @@ products.forEach((product) => {
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
+// add-to-cart button functionality
 document.querySelectorAll('.js-add-to-cart').forEach((button) =>{
     button.addEventListener('click', () => {
 
@@ -79,6 +80,14 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>{
             })
         }
 
-        console.log(cart);
+    //cart count
+    let cartCount = 0;  
+    cart.forEach((item) => {
+        cartCount += item.quantity;
+    });
+
+    document.querySelector('.js-cart-quantity').textContent = cartCount;
+
+
     });
 });
