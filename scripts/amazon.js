@@ -73,6 +73,19 @@ const updateCartQuantity = () => {
 
 }
 
+const InitialCartQuantity = () => {
+  // display the number of products in the cart.
+  let cartCount = 0;  
+  cart.forEach((CartItem) => {
+      cartCount += CartItem.quantity;
+  });
+
+  document.querySelector('.js-cart-quantity-initial').textContent = cartCount;
+
+}
+
+InitialCartQuantity();
+
 const AddedToCartMessage = (productId,timeout1) => {
 
   //added-to-cart sign

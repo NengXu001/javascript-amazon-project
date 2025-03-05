@@ -44,3 +44,13 @@ export const removeFromCart = (productId) => {
 
     saveToStorage();
 }
+
+export const updateQuantity = (productId, newQuantity) => {
+    cart.forEach((cartItem) => {
+        if (cartItem.productId === productId) {
+            cartItem.quantity = newQuantity;
+        }
+    });
+
+    saveToStorage();
+}
