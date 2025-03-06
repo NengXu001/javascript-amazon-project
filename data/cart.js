@@ -24,7 +24,8 @@ export const addToCart = (productId) => {
     else{
         cart.push({
             productId: productId,
-            quantity: Quantity_increment
+            quantity: Quantity_increment,
+            deliveryOptionId: '1' // default delivery option
         })
     }
     saveToStorage();
@@ -53,4 +54,21 @@ export const updateQuantity = (productId, newQuantity) => {
     });
 
     saveToStorage();
+}
+
+export const updateDeliveryOption = (productId, deliveryOptionId) => {
+    
+    let matchingItem;
+
+
+    cart.forEach((cartItem) => {
+        if (cartItem.productId === productId) {
+            matchingItem = cartItem;
+        }
+    });
+
+    matchingItem.deliveryOptionId = deliveryOptionId;
+
+    saveToStorage();
+
 }
