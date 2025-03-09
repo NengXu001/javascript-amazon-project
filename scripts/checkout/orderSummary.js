@@ -4,35 +4,35 @@ import {formatCurrency} from '.././utils/money.js';
 import { removeFromCart } from '../../data/cart.js';
 import { updateQuantity } from '../../data/cart.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js';
+import {deliveryOptions, getDeliveryOption, calculateDeliveryDate} from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
+import { renderCheckoutHeader } from './checkoutHeader.js';
 
-
+// This function will render the order summary on the checkout page.
 export function renderOrderSummary () {
 
     let cartSummaryHTML = '';
 
     // display the number of products in the cart.
-    const UpdateCartQuantity = () => {
-        
-        let cartCount = 0;  
-        cart.forEach((CartItem) => {
-            cartCount += CartItem.quantity;
-        });
-    
-        document.querySelector('.js-cart-quantity-checkout-page').textContent = cartCount;
-    
-    }
 
-    UpdateCartQuantity();
+    // const UpdateCartQuantity = () => {
+        
+    //     let cartCount = 0;  
+    //     cart.forEach((CartItem) => {
+    //         cartCount += CartItem.quantity;
+    //     });
+    
+    //     document.querySelector('.js-cart-quantity-checkout-page').textContent = cartCount;
+    
+    // }
+
+    // UpdateCartQuantity();
 
     const deliveryOptionsHTML = (matchingProduct, cartItem) => {
         let html = '';
 
         deliveryOptions.forEach((option) => {
-
-            const today = dayjs();
-            const dateString = today.add(option.deliveryDays, 'days').format('dddd, MMMM D');
+            const dateString = calculateDeliveryDate(option);
 
             const priceString = option.priceCents === 0 ? 'FREE' : `$${formatCurrency(option.priceCents)}-`;
 
@@ -130,13 +130,13 @@ export function renderOrderSummary () {
     document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 
     document.querySelectorAll('.js-delete-link').forEach((link) => {
-        link.addEventListener('click', (event) => {
+        link.addEventListener('click', () => {
             const productId = link.dataset.productId;
             removeFromCart(productId);
 
-            document.querySelector(`.js-cart-item-container-${productId}`).remove();
-
-            UpdateCartQuantity();
+            // UpdateCartQuantity();
+            renderCheckoutHeader();
+            renderOrderSummary();
             renderPaymentSummary();
         });
     });
@@ -174,7 +174,10 @@ export function renderOrderSummary () {
 
             updateQuantity(productId,newQuantity);
 
-            UpdateCartQuantity();   
+            // UpdateCartQuantity();  
+            renderCheckoutHeader(); 
+            renderOrderSummary();
+            renderPaymentSummary();
 
         });
     });

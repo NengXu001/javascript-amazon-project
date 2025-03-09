@@ -23,6 +23,12 @@ export const renderPaymentSummary = () => {
 
     const totalCents = (totalBeforeTax * 1.1);
 
+    let cartCount = 0;
+
+    cart.forEach((cartItem) => {
+        cartCount += cartItem.quantity;
+    });
+
     const paymentSummaryHTML = 
     `
          <div class="payment-summary-title">
@@ -30,7 +36,7 @@ export const renderPaymentSummary = () => {
           </div>
 
           <div class="payment-summary-row">
-            <div>Items (3):</div>
+            <div>Items (${cartCount}):</div>
             <div class="payment-summary-money">$${formatCurrency(productPriceCents)}</div>
           </div>
 
