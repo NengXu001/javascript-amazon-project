@@ -1,6 +1,7 @@
 export let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
 
 const saveToStorage = () => {
+    // the fist argument is the key, the second argument is the value
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
