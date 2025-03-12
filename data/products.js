@@ -63,8 +63,28 @@ console.log(date);
 console.log(date.toLocaleTimeString());
 */
 
+export let products = [];
 
+export const loadProducts = (func) => {
+  const xhr = new XMLHttpRequest();
+  
+  // once the data is loaded, parse it and create Product objects
+  xhr.addEventListener('load', () => {
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      if(productDetails.type === "clothing") {
+          return new Clothing(productDetails);
+      }
+      return new Product(productDetails);
+    });
+  func();
+  });
 
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  xhr.send();
+
+}
+
+/*
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -730,4 +750,4 @@ export const products = [
   }
   return new Product(productDetails);
 });
-
+*/
